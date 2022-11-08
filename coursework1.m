@@ -126,4 +126,14 @@ lts_p_lkm80 = inv(t_mat80) * lkm80
 
 lab_p_lkm_98 = t_mat*lts_p_lkm80
 
-
+%% For loop for 3iii)
+clc;
+lab_lkm_vecs = [];
+tmats = []
+k = 1;
+for frame=78:123
+    lab_tmat_lts_i = get_lab_tmat_lts_i(frame, data);
+    tmats(:,:,k) = lab_tmat_lts_i;
+    lab_lkm_vecs(:,k) = lab_tmat_lts_i * lts_p_lkm80;
+    k = k+1;
+end
