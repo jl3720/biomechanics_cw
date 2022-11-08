@@ -110,7 +110,7 @@ sl80 = lt_lat80 - lt_sup80
 
 y_hat80 = -si80./norm(si80)
 
-n80 = cross(si, sl);
+n80 = cross(si80, sl80);
 x_hat80 = n80./norm(n80)
 z_hat80 = cross(x_hat80,y_hat80)
 
@@ -118,7 +118,12 @@ rot_mat80 = [x_hat80', y_hat80', z_hat80'];
 rot_mat80(4,:) = 0;
 plts80 = [lt_sup80';1];
 t_mat80 = [rot_mat80, plts80];
-lts_p_lkm = inv(t_mat80);
 
 lkm = data(:,{'Frame','L_Knee_MedialX','L_Knee_MedialY', 'L_Knee_MedialZ'});
-lkm80 = data(data{:,'Frame'} == 80, :)
+lkm80 = lkm{lkm{:,'Frame'} == 80, :};
+lkm80 = [lkm80(2:end), 1]'
+lts_p_lkm80 = inv(t_mat80) * lkm80
+
+lab_p_lkm_98 = t_mat*lts_p_lkm80
+
+

@@ -122,6 +122,8 @@ t_mat80 = [rot_mat80, plts80];
 lkm = data(:,{'Frame','L_Knee_MedialX','L_Knee_MedialY', 'L_Knee_MedialZ'});
 lkm80 = lkm{lkm{:,'Frame'} == 80, :};
 lkm80 = [lkm80(2:end), 1]'
-lts_p_lkm = inv(t_mat80) * lkm80
+lts_p_lkm80 = inv(t_mat80) * lkm80
 
-lab_p_lkm = t_mat*lts_p_lkm
+lab_p_lkm_98 = t_mat*lts_p_lkm80
+
+
