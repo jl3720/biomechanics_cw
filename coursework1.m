@@ -222,3 +222,11 @@ gamma = atan2(rt_rs_tmat_105(3,2), rt_rs_tmat_105(2,2))*180/pi
 alpha = atan2(-rt_rs_tmat_105(1,2), sqrt((rt_rs_tmat_105(1,1))^2+(rt_rs_tmat_105(1,3))^2))*180/pi
 
 %% 6
+test_rshank = get_lab_rshank(105, data)
+test_r_thigh = get_lab_rthigh(105, data)
+
+test_thigh_shank = inv(test_r_thigh) * test_rshank
+
+test_beta = atan2(test_thigh_shank(1,3), test_thigh_shank(1,1))*180/pi
+test_gamma = atan2(test_thigh_shank(3,2), test_thigh_shank(2,2))*180/pi
+test_alpha = atan2(-test_thigh_shank(1,2), sqrt((test_thigh_shank(1,1))^2+(test_thigh_shank(1,3))^2))*180/pi
