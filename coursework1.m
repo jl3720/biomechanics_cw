@@ -253,8 +253,26 @@ for i=[0:size(data,1)-1]
     l_angles(i+1,:) = [lalpha, lbeta, lgamma];
 end
 
-figure(4); clf;hold on;
-plot(r_angles(:,1))
-plot(r_angles(:,2))
-plot(r_angles(:,3))
-legend('alpha', 'beta', 'gamma')
+t = data{:,'time_sec_'}
+figure(4); clf;hold on; grid on;
+plot(t,r_angles(:,1))
+plot(t,-r_angles(:,2))  % - because external rotation positive
+plot(t,r_angles(:,3))
+
+title('Right Knee Joint Angles over time')
+xlabel('Time (s)')
+ylabel('Angle (Degrees)')
+legend('Right Knee alpha (Z)', 'Right Knee beta (Y)', 'Right Knee gamma (X)')
+
+
+filled_l_angles = fillmissing(l_angles, 'spline', 1)
+figure(5); clf; hold on; grid on;
+plot(t,-filled_l_angles(:,1))  % - because abduction positive
+plot(t,filled_l_angles(:,2))
+plot(t,filled_l_angles(:,3))
+scatter(1.875, 0:70, '|', 'b')
+scatter(2.0833, 0:70, '|', 'b')
+legend('Left Knee alpha (Z)', 'Left Knee beta (Y)', 'Left Knee gamma (X)', 'Interpolated Values')
+title('Left Knee Joint Angles over time')
+xlabel('Time (s)')
+ylabel('Angle (Degrees)')
