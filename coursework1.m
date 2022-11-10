@@ -205,3 +205,20 @@ y_hat_105 = cross(z_hat_105,x_hat_105)
 
 lab_shank_tmat_105 = [x_hat_105, y_hat_105, z_hat_105, rsi]
 lab_shank_tmat_105 = [lab_shank_tmat_105; 0 0 0 1]
+
+%% 5 Joint Motion and Angles
+lab_R_rt = lab_thigh_tmat_105(1:3,1:3)
+R_inv = inv(lab_R_rt)
+R_inv_dot_org = R_inv*patella105
+rt_lab_tmat_105 = [R_inv, -R_inv_dot_org];
+rt_lab_tmat_105 = [rt_lab_tmat_105; 0 0 0 1]
+
+rt_rs_tmat_105 = rt_lab_tmat_105 * lab_shank_tmat_105
+check_rt_rs_mat = inv(lab_thigh_tmat_105) * lab_shank_tmat_105
+rt_rs_tmat_105 - check_rt_rs_mat
+
+beta = atan2(rt_rs_tmat_105(1,3), rt_rs_tmat_105(1,1))*180/pi
+gamma = atan2(rt_rs_tmat_105(3,2), rt_rs_tmat_105(2,2))*180/pi
+alpha = atan2(-rt_rs_tmat_105(1,2), sqrt((rt_rs_tmat_105(1,1))^2+(rt_rs_tmat_105(1,3))^2))*180/pi
+
+%% 6
