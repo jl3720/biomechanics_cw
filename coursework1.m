@@ -221,7 +221,7 @@ beta = atan2(rt_rs_tmat_105(1,3), rt_rs_tmat_105(1,1))*180/pi
 gamma = atan2(rt_rs_tmat_105(3,2), rt_rs_tmat_105(2,2))*180/pi
 alpha = atan2(-rt_rs_tmat_105(1,2), sqrt((rt_rs_tmat_105(1,1))^2+(rt_rs_tmat_105(1,3))^2))*180/pi
 
-%% 6
+%% 6 test
 test_rshank = get_lab_rshank(105, data)
 test_r_thigh = get_lab_rthigh(105, data)
 
@@ -230,3 +230,31 @@ test_thigh_shank = inv(test_r_thigh) * test_rshank
 test_beta = atan2(test_thigh_shank(1,3), test_thigh_shank(1,1))*180/pi
 test_gamma = atan2(test_thigh_shank(3,2), test_thigh_shank(2,2))*180/pi
 test_alpha = atan2(-test_thigh_shank(1,2), sqrt((test_thigh_shank(1,1))^2+(test_thigh_shank(1,3))^2))*180/pi
+
+%% 6
+clc;
+r_angles = zeros(147,3);
+l_angles = zeros(147,3);
+
+for i=[0:size(data,1)-1]
+    frame = i+data{1,'Frame'};
+    rshank = get_lab_rshank(frame, data);
+    rthigh = get_lab_rthigh(frame, data);
+    lshank = get_lab_lshank(frame, data);
+    lthigh = get_lab_lthigh(frame, data);
+
+    r_rot = inv(rthigh)*rshank;
+    l_rot = inv(lthigh)*lshank;
+
+    [ralpha, rbeta, rgamma] = get_abg(r_rot);
+    [lalpha, lbeta, lgamma] = get_abg(l_rot);
+
+    r_angles(i+1,:) = [ralpha, rbeta, rgamma];
+    l_angles(i+1,:) = [lalpha, lbeta, lgamma];
+end
+
+figure(4); clf;hold on;
+plot(r_angles(:,1))
+plot(r_angles(:,2))
+plot(r_angles(:,3))
+legend('alpha', 'beta', 'gamma')
