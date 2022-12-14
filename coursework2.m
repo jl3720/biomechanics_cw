@@ -74,4 +74,19 @@ ylabel('Apparent viscosity, \mu_{app} (\muPa s)')
 set(gca, 'xscale', 'log', 'yscale', 'log')
 hold off;
 
-%% 
+%% Q3a) Calculate shear rate and shear stress for blood
+shear_rate_WN = -4.*Q_SI./pi./R^3  % Wall shear rate for newtonian fluid in SI
+shear_stress_W_b = -R/2.*PB_SI./L
+
+%% 3b)
+G = log(abs(shear_rate_WN))
+T = log(abs(shear_stress_W_b))
+
+fitout_3 = GeneralLinearFit(T, G)
+dgdt = fitout_3.b1;
+
+%% 3c)
+shear_rate_wall = shear_rate_WN./4.*(3+dgdt)
+
+mu_wall = shear_stress_W_b./shear_rate_wall
+

@@ -52,7 +52,7 @@ xlabel('Flow rate (\muL/min)')
 ylabel('Apparent viscosity, \mu_{app} (\muPa s)')
 hold off;
 
-subplot(1,2,2); clf;hold on; grid on;
+subplot(1,2,2); hold on; grid on;
 % Plot raw data
 scatter(Q, mu_apparent_sm.*10^3, 'b')  % Suspension Medium
 scatter(Q, mu_apparent_b.*10^3, 'r')  % Blood
@@ -66,7 +66,7 @@ plot((exp(fitout_sm.xfit).*(10^6.*60)), exp(fitout_sm.cbands).*1000, 'b--')
 plot((exp(fitout_b.xfit).*(10^6.*60)), exp(fitout_b.cbands).*1000, 'r--')
 
 % Format graph
-title('Linear plot for \mu_{app} vs flow rate with power law fit')
+title('           Logarithmic plot for \mu_{app} vs flow rate with power law fit')
 legend('SM Raw Data', 'B Raw Data', 'SM Power Law fit', 'B Power Law fit',  'SM Confidence Intervals', '', 'B Confidence Intervals')
 xlabel('Flow rate (\muL/min)')
 ylabel('Apparent viscosity, \mu_{app} (\muPa s)')
@@ -74,4 +74,12 @@ ylabel('Apparent viscosity, \mu_{app} (\muPa s)')
 set(gca, 'xscale', 'log', 'yscale', 'log')
 hold off;
 
+%% Q3a) Calculate shear rate and shear stress for blood
+shear_rate_WN = -4.*Q_SI./pi./R^3  % Wall shear rate for newtonian fluid in SI
+shear_stress_W_b = -R/2.*PB_SI./L
 
+%% 3b)
+G = log(abs(shear_rate_WN))
+T = log(abs(shear_stress_W_b))
+
+fitout_3 = GeneralLinearFit(T, G)
