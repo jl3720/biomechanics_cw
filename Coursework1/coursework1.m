@@ -28,6 +28,8 @@ scatter(t, L_Knee_MedialZ)
 scatter(t(TZF),ZF(TZF))
 lgd = legend("X Coordinate Raw", "X Coordinate Interpolated", "Y Coordinate Raw", "Y Coordinate Interpolated", "Z Coordinate Raw", "Z Coordinate Interpolated");
 lgd.Location = 'southwest';
+xlabel('Time (ms)')
+ylabel('Coordinates (AU)')
 
 %% 3ii) Spline
 [XF,TXF] = fillmissing(L_Knee_MedialX, 'spline');
@@ -51,7 +53,8 @@ scatter(t(TZF),ZF(TZF))
 lgd = legend("X Coordinate Raw", "X Coordinate Interpolated", "Y Coordinate Raw", "Y Coordinate Interpolated", "Z Coordinate Raw", "Z Coordinate Interpolated");
 lgd.Location = 'southwest';
 
-
+xlabel('Time (ms)')
+ylabel('Coordinates (AU)')
 
 %% 3 Transformation Matrix for Left Thigh Superior
 % left_thigh_sup_x = data{data{:,'Frame'} == 98, "L_Thigh_SuperiorX"}
@@ -138,6 +141,9 @@ scatter(t(TZF),lab_lkm_vecs(3,:))
 lgd = legend("X Coordinate Raw", "X Coordinate Interpolated", "Y Coordinate Raw", "Y Coordinate Interpolated", "Z Coordinate Raw", "Z Coordinate Interpolated");
 lgd.Location = 'southwest';
 figure(3);
+
+xlabel('Time (ms)')
+ylabel('Coordinates (AU)')
 
 %% Q4i) Right Thigh to Lab
 clc;
@@ -276,3 +282,36 @@ legend('Left Knee alpha (Z)', 'Left Knee beta (Y)', 'Left Knee gamma (X)', 'Inte
 title('Left Knee Joint Angles over time')
 xlabel('Time (s)')
 ylabel('Angle (Degrees)')
+
+%% 7
+clc;
+format longg;
+M1 = [cosd(43)*3.1, sind(23)*5.4, sind(79)*0.9+cosd(79)*23.7, -sind(75)*3.3]
+M2 = [-sind(43)*3.1, -cosd(23)*5.4, cosd(79)*1.6, -cosd(75)*3.3]
+M3 = [cosd(43)*7.5, -sind(23)*4.6, sind(79)*1.6, sind(75)*0.6-30.8*cosd(75)]
+
+M = [M1;M2;M3]./100
+p = [-5.4;-15;-30.2]
+
+% Gmed = 0
+Amed = M(:,2:end)
+Amed_inv = inv(Amed)
+
+xmed = Amed_inv * p
+
+% Gmax = 0
+Amax = [M(:,1), M(:,3:end)]
+
+inv(Amax)
+xmax = inv(Amax)*p
+
+% H = 0
+Ah = [M(:,1:2), M(:,end)]
+
+inv(Ah)
+xh = inv(Ah) * p
+
+% S = 0
+As = M(:,1:3)
+inv(As)
+xs = inv(As) * p
