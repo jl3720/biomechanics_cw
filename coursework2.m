@@ -90,3 +90,5 @@ shear_rate_wall = shear_rate_WN./4.*(3+dgdt)
 
 mu_wall = shear_stress_W_b./shear_rate_wall
 
+%% 3d)
+
